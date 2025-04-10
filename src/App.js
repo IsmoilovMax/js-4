@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
+const App = () => {
+  const [birthday, setBirthday] = React.useState("")
+  const [result, setResult] = React.useState(null)
+
+  const calculateAge = () => {
+    const birhdayValue = birthday
+    if(birhdayValue === "") {
+      alert("Please enter your birthday")
+    }
+    else {
+      const age = getAge(birhdayValue)
+      setResult(`Your age is ${age} ${age > 1 ? "years" : "year"} old`)
+    }
+  }
+
+  const getAge = (birthdayValue) => {
+    const currentDate = new Date()
+    const birthdayDate = new Date(birthdayValue)
+    let age = currentDate.getFullYear() - birthdayDate.getFullYear()
+    const month = currentDate.getMonth() - birthdayDate.getMonth()
+    if (month < 0 || (month === 0 && currentDate.getDate() < birthdayDate.getDate())) {
+      age--
+    }
+    return age
+  }
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <div className='container'>
+        <h1>Age Calculator</h1>
+        <div className='form'>
+          <label for="birthday">Enter you date of birth</label>
+          <input type='date' id='birthday' onChange={(e) => setBirthday(e.target.value)} name='birthday' />
+          <button id='btn' onClick={calculateAge}>Calculate Age</button>
+          <p>{result}</p>
+        </div>
+      </div>
+      <div className='container'>
+        <h1>Age Calculator</h1>
+        <h2>Welcome to React</h2>
+        <small>This is a simple React application.</small>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
